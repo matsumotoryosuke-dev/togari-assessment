@@ -110,7 +110,7 @@ const TogariAssessment = () => {
     }, []);
 
     const IntroScreen = () => (
-        <div className="space-y-8">
+        <div className="gap-y-8">
             <div className="text-center">
                 <h1 className="text-4xl font-bold mb-4" style={{ color: '#CCA806' }}>
                     尖(とがり)診断
@@ -119,7 +119,7 @@ const TogariAssessment = () => {
                 <p className="text-sm text-gray-500">by Kuuki Design</p>
             </div>
 
-            <div className="space-y-4 text-gray-300">
+            <div className="gap-y-4 text-gray-300">
                 <p className="text-lg leading-relaxed">
                     2026年以降、AIは「チャットボット」から「自律型エージェント」へと進化します。
                 </p>
@@ -135,19 +135,19 @@ const TogariAssessment = () => {
 
             <div className="bg-[#2a2a2a] p-6 rounded-lg border border-gray-800">
                 <h3 className="text-lg font-semibold mb-3" style={{ color: '#CCA806' }}>この診断でわかること</h3>
-                <ul className="space-y-2 text-gray-300">
+                <ul className="gap-y-2 text-gray-300">
                     <li>✓ あなたの業務がAIに置き換えられるリスク度</li>
                     <li>✓ 「舵取り」と「磨き手」、どちらを目指すべきか</li>
                     <li>✓ 3-5年の具体的な行動計画</li>
                 </ul>
             </div>
 
-            <div className="flex items-center justify-center space-x-4 pt-4">
+            <div className="flex items-center justify-center gap-4 pt-4">
                 <a
                     href="https://www.youtube.com/channel/UChXxbzzxzUHn7RRlgX0jaIQ"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center space-x-2 text-gray-400 hover:text-gray-300 transition-colors"
+                    className="flex items-center gap-2 text-gray-400 hover:text-gray-300 transition-colors"
                 >
                     <Youtube size={20} />
                     <span className="text-sm">Rioのチャンネルを見る</span>
@@ -156,7 +156,7 @@ const TogariAssessment = () => {
 
             <button
                 onClick={() => setCurrentStep(1)}
-                className="w-full py-4 rounded-lg font-semibold flex items-center justify-center space-x-2 transition-all hover:opacity-90"
+                className="w-full py-4 rounded-lg font-semibold flex items-center justify-center gap-2 transition-all hover:opacity-90"
                 style={{ backgroundColor: '#CCA806', color: '#1d1d1d' }}
             >
                 <span>診断を始める</span>
@@ -177,13 +177,13 @@ const TogariAssessment = () => {
         const question = questions[currentQ];
 
         return (
-            <div className="space-y-8">
+            <div className="gap-y-8">
                 <div className="flex justify-between items-center mb-8">
                     <h2 className="text-2xl font-bold" style={{ color: '#CCA806' }}>尖度セルフチェック</h2>
                     <span className="text-sm text-gray-500">{currentQ + 1} / {questions.length}</span>
                 </div>
 
-                <div className="space-y-6">
+                <div className="gap-y-6">
                     <div>
                         <h3 className="text-xl font-semibold mb-3 text-gray-200">{question.title}</h3>
                         <p className="text-gray-400 mb-4">{question.description}</p>
@@ -191,7 +191,7 @@ const TogariAssessment = () => {
 
                     <div className="bg-[#2a2a2a] p-6 rounded-lg border border-gray-800">
                         <p className="text-sm font-semibold mb-3 text-gray-400">具体例:</p>
-                        <ul className="space-y-2">
+                        <ul className="gap-y-2">
                             {question.examples.map((example, idx) => (
                                 <li key={idx} className="text-sm text-gray-300 flex items-start">
                                     <span className="mr-2">•</span>
@@ -201,12 +201,12 @@ const TogariAssessment = () => {
                         </ul>
                     </div>
 
-                    <div className="space-y-4">
+                    <div className="gap-y-4">
                         <button
                             onClick={() => setAnswers({ ...answers, [question.id]: 'yes' })}
                             className={`w-full py-4 rounded-lg font-semibold transition-all ${answers[question.id] === 'yes'
-                                    ? 'border-2'
-                                    : 'bg-[#2a2a2a] border border-gray-800 hover:border-gray-700'
+                                ? 'border-2'
+                                : 'bg-[#2a2a2a] border border-gray-800 hover:border-gray-700'
                                 }`}
                             style={answers[question.id] === 'yes' ? {
                                 borderColor: '#CCA806',
@@ -218,8 +218,8 @@ const TogariAssessment = () => {
                         <button
                             onClick={() => setAnswers({ ...answers, [question.id]: 'no' })}
                             className={`w-full py-4 rounded-lg font-semibold transition-all ${answers[question.id] === 'no'
-                                    ? 'border-2'
-                                    : 'bg-[#2a2a2a] border border-gray-800 hover:border-gray-700'
+                                ? 'border-2'
+                                : 'bg-[#2a2a2a] border border-gray-800 hover:border-gray-700'
                                 }`}
                             style={answers[question.id] === 'no' ? {
                                 borderColor: '#CCA806',
@@ -234,7 +234,7 @@ const TogariAssessment = () => {
                 <div className="flex justify-between pt-6">
                     <button
                         onClick={() => currentQ > 0 ? setCurrentQ(currentQ - 1) : onBack()}
-                        className="px-6 py-3 rounded-lg border border-gray-700 hover:border-gray-600 transition-colors flex items-center space-x-2"
+                        className="px-6 py-3 rounded-lg border border-gray-700 hover:border-gray-600 transition-colors flex items-center gap-2"
                     >
                         <ArrowLeft size={20} />
                         <span>戻る</span>
@@ -243,7 +243,7 @@ const TogariAssessment = () => {
                         <button
                             onClick={() => setCurrentQ(currentQ + 1)}
                             disabled={!answers[question.id]}
-                            className="px-6 py-3 rounded-lg font-semibold flex items-center space-x-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                             style={{ backgroundColor: '#CCA806', color: '#1d1d1d' }}
                         >
                             <span>次へ</span>
@@ -253,7 +253,7 @@ const TogariAssessment = () => {
                         <button
                             onClick={onNext}
                             disabled={!answers[question.id]}
-                            className="px-6 py-3 rounded-lg font-semibold flex items-center space-x-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                             style={{ backgroundColor: '#CCA806', color: '#1d1d1d' }}
                         >
                             <span>結果を見る</span>
@@ -270,7 +270,7 @@ const TogariAssessment = () => {
         const result = getRiskLevel(riskScore);
 
         return (
-            <div className="space-y-8">
+            <div className="gap-y-8">
                 <h2 className="text-2xl font-bold" style={{ color: '#CCA806' }}>診断結果</h2>
 
                 <div className="bg-[#2a2a2a] p-8 rounded-lg border border-gray-800 text-center">
@@ -285,7 +285,7 @@ const TogariAssessment = () => {
                     <p className="text-gray-300 text-lg">{result.message}</p>
                 </div>
 
-                <div className="space-y-4">
+                <div className="gap-y-4">
                     <h3 className="text-lg font-semibold text-gray-200">回答の内訳</h3>
                     {questions.map((q, idx) => (
                         <div key={q.id} className="bg-[#2a2a2a] p-4 rounded-lg border border-gray-800">
@@ -313,14 +313,14 @@ const TogariAssessment = () => {
                 <div className="flex justify-between pt-6">
                     <button
                         onClick={() => setCurrentStep(1)}
-                        className="px-6 py-3 rounded-lg border border-gray-700 hover:border-gray-600 transition-colors flex items-center space-x-2"
+                        className="px-6 py-3 rounded-lg border border-gray-700 hover:border-gray-600 transition-colors flex items-center gap-2"
                     >
                         <ArrowLeft size={20} />
                         <span>診断に戻る</span>
                     </button>
                     <button
                         onClick={() => setCurrentStep(3)}
-                        className="px-6 py-3 rounded-lg font-semibold flex items-center space-x-2"
+                        className="px-6 py-3 rounded-lg font-semibold flex items-center gap-2"
                         style={{ backgroundColor: '#CCA806', color: '#1d1d1d' }}
                     >
                         <span>ワークシートへ</span>
@@ -347,10 +347,10 @@ const TogariAssessment = () => {
         };
 
         return (
-            <div className="space-y-8">
+            <div className="gap-y-8">
                 <h2 className="text-2xl font-bold" style={{ color: '#CCA806' }}>あなたの「尖」を見つける</h2>
 
-                <div className="space-y-6">
+                <div className="gap-y-6">
                     <div>
                         <label className="block text-sm font-semibold mb-3 text-gray-300">
                             1. あなたの「尖」は何ですか?
@@ -372,12 +372,12 @@ const TogariAssessment = () => {
                         <label className="block text-sm font-semibold mb-3 text-gray-300">
                             2. 「舵取り」と「磨き手」、どちらを目指しますか?
                         </label>
-                        <div className="space-y-3">
+                        <div className="gap-y-3">
                             <div
                                 onClick={() => onRoleChange('steering')}
                                 className={`p-4 rounded-lg cursor-pointer transition-all ${worksheetData.roleChoice === 'steering'
-                                        ? 'border-2'
-                                        : 'bg-[#2a2a2a] border border-gray-800 hover:border-gray-700'
+                                    ? 'border-2'
+                                    : 'bg-[#2a2a2a] border border-gray-800 hover:border-gray-700'
                                     }`}
                                 style={worksheetData.roleChoice === 'steering' ? {
                                     borderColor: '#CCA806',
@@ -392,8 +392,8 @@ const TogariAssessment = () => {
                             <div
                                 onClick={() => onRoleChange('polishing')}
                                 className={`p-4 rounded-lg cursor-pointer transition-all ${worksheetData.roleChoice === 'polishing'
-                                        ? 'border-2'
-                                        : 'bg-[#2a2a2a] border border-gray-800 hover:border-gray-700'
+                                    ? 'border-2'
+                                    : 'bg-[#2a2a2a] border border-gray-800 hover:border-gray-700'
                                     }`}
                                 style={worksheetData.roleChoice === 'polishing' ? {
                                     borderColor: '#CCA806',
@@ -412,14 +412,14 @@ const TogariAssessment = () => {
                 <div className="flex justify-between pt-6">
                     <button
                         onClick={onBack}
-                        className="px-6 py-3 rounded-lg border border-gray-700 hover:border-gray-600 transition-colors flex items-center space-x-2"
+                        className="px-6 py-3 rounded-lg border border-gray-700 hover:border-gray-600 transition-colors flex items-center gap-2"
                     >
                         <ArrowLeft size={20} />
                         <span>結果に戻る</span>
                     </button>
                     <button
                         onClick={onNext}
-                        className="px-6 py-3 rounded-lg font-semibold flex items-center space-x-2"
+                        className="px-6 py-3 rounded-lg font-semibold flex items-center gap-2"
                         style={{ backgroundColor: '#CCA806', color: '#1d1d1d' }}
                     >
                         <span>行動計画へ</span>
@@ -557,7 +557,7 @@ const TogariAssessment = () => {
         };
 
         return (
-            <div className="space-y-8">
+            <div className="gap-y-8">
                 <h2 className="text-2xl font-bold" style={{ color: '#CCA806' }}>3-5年の行動計画</h2>
 
                 <div className="bg-[#2a2a2a] p-6 rounded-lg border border-gray-800">
@@ -587,11 +587,11 @@ const TogariAssessment = () => {
                     />
                 </div>
 
-                <div className="space-y-4">
+                <div className="gap-y-4">
                     <button
                         onClick={downloadPDF}
                         disabled={isGeneratingPDF}
-                        className="w-full py-4 rounded-lg font-semibold flex items-center justify-center space-x-2 bg-[#2a2a2a] border border-gray-800 hover:border-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full py-4 rounded-lg font-semibold flex items-center justify-center gap-2 bg-[#2a2a2a] border border-gray-800 hover:border-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         <Download size={20} />
                         <span>{isGeneratingPDF ? 'PDF生成中...' : 'PDFで保存'}</span>
@@ -605,7 +605,7 @@ const TogariAssessment = () => {
                             href="https://www.youtube.com/channel/UChXxbzzxzUHn7RRlgX0jaIQ"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center space-x-2 px-6 py-3 rounded-lg font-semibold transition-all hover:opacity-90"
+                            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all hover:opacity-90"
                             style={{ backgroundColor: '#CCA806', color: '#1d1d1d' }}
                         >
                             <Youtube size={20} />
@@ -617,7 +617,7 @@ const TogariAssessment = () => {
                 <div className="flex justify-between pt-6">
                     <button
                         onClick={onBack}
-                        className="px-6 py-3 rounded-lg border border-gray-700 hover:border-gray-600 transition-colors flex items-center space-x-2"
+                        className="px-6 py-3 rounded-lg border border-gray-700 hover:border-gray-600 transition-colors flex items-center gap-2"
                     >
                         <ArrowLeft size={20} />
                         <span>ワークシートに戻る</span>
@@ -677,7 +677,7 @@ const TogariAssessment = () => {
                 </div>
                 <div className="max-w-3xl mx-auto" style={{ position: 'relative', zIndex: 1 }}>
                     <div className="mb-8">
-                        <div className="flex space-x-2 overflow-x-auto pb-2">
+                        <div className="flex gap-2 overflow-x-auto pb-2">
                             {steps.map((step, idx) => (
                                 <div
                                     key={step.id}
