@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Download, Youtube, ArrowRight, ArrowLeft } from 'lucide-react';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import QRCode from 'qrcode';
 
 const TogariAssessment = () => {
     const [currentStep, setCurrentStep] = useState(0);
@@ -546,101 +547,115 @@ const TogariAssessment = () => {
             setIsGeneratingPDF(true);
 
             try {
-                // Create PDF directly with jsPDF
-                const pdf = new jsPDF('p', 'mm', 'a4');
-                const pageWidth = pdf.internal.pageSize.getWidth();
-                let y = 20;
-
-                // Title
-                pdf.setFontSize(24);
-                pdf.setTextColor(204, 168, 6); // Gold color
-                pdf.text('尖（とがり）診断結果', pageWidth / 2, y, { align: 'center' });
-                y += 20;
-
-                // Score section
-                pdf.setDrawColor(204, 168, 6);
-                pdf.setLineWidth(0.5);
-                pdf.rect(20, y, pageWidth - 40, 50);
-
-                pdf.setFontSize(36);
-                pdf.setTextColor(204, 168, 6);
-                pdf.text(`${result.level}`, pageWidth / 2, y + 20, { align: 'center' });
-
-                pdf.setFontSize(14);
-                pdf.setTextColor(100, 100, 100);
-                pdf.text(`スコア: ${riskScore} / 3`, pageWidth / 2, y + 32, { align: 'center' });
-
-                pdf.setFontSize(11);
-                pdf.setTextColor(50, 50, 50);
-                const messageLines = pdf.splitTextToSize(result.message, pageWidth - 60);
-                pdf.text(messageLines, pageWidth / 2, y + 42, { align: 'center' });
-                y += 60;
-
-                // Your "Togari"
-                pdf.setFontSize(14);
-                pdf.setTextColor(30, 30, 30);
-                pdf.text('あなたの「尖」', 20, y);
-                y += 8;
-
-                pdf.setFontSize(11);
-                pdf.setTextColor(60, 60, 60);
-                const togariText = worksheetData.myTogari || '（未記入）';
-                const togariLines = pdf.splitTextToSize(togariText, pageWidth - 40);
-                pdf.text(togariLines, 20, y);
-                y += togariLines.length * 6 + 10;
-
-                // Role choice
-                pdf.setFontSize(14);
-                pdf.setTextColor(30, 30, 30);
-                pdf.text('選択した役割', 20, y);
-                y += 8;
-
-                pdf.setFontSize(11);
-                pdf.setTextColor(60, 60, 60);
-                const roleText = worksheetData.roleChoice === 'steering' ? '舵取り' :
-                    worksheetData.roleChoice === 'polishing' ? '磨き手' : '（未選択）';
-                pdf.text(roleText, 20, y);
-                y += 15;
-
-                // Action plan
-                pdf.setFontSize(14);
-                pdf.setTextColor(30, 30, 30);
-                pdf.text('3-5年の行動計画', 20, y);
-                y += 8;
-
-                pdf.setFontSize(11);
-                pdf.setTextColor(60, 60, 60);
-                const actionText = worksheetData.actionPlan || '（未記入）';
-                const actionLines = pdf.splitTextToSize(actionText, pageWidth - 40);
-                pdf.text(actionLines, 20, y);
-                y += actionLines.length * 6 + 15;
-
-                // Answers breakdown
-                pdf.setFontSize(14);
-                pdf.setTextColor(30, 30, 30);
-                pdf.text('回答の内訳', 20, y);
-                y += 10;
-
-                questions.forEach((q, idx) => {
-                    pdf.setFontSize(11);
-                    pdf.setTextColor(100, 100, 100);
-                    pdf.text(`チェック${idx + 1}:`, 20, y);
-
-                    const answerText = answers[q.id] === 'yes' ? 'はい' : 'いいえ';
-                    pdf.setTextColor(answers[q.id] === 'yes' ? 248 : 74, answers[q.id] === 'yes' ? 113 : 222, answers[q.id] === 'yes' ? 113 : 128);
-                    pdf.text(answerText, pageWidth - 30, y);
-                    y += 8;
+                // Generate QR code for YouTube channel
+                const qrCodeDataUrl = await QRCode.toDataURL('https://www.youtube.com/channel/UChXxbzzxzUHn7RRlgX0jaIQ', {
+                    width: 80,
+                    margin: 0,
+                    color: { dark: '#1d1d1d', light: '#ffffff' }
                 });
 
-                y += 10;
+                // Create a temporary container for PDF content
+                const pdfContainer = document.createElement('div');
+                pdfContainer.style.cssText = `
+                    position: absolute;
+                    left: -9999px;
+                    top: 0;
+                    width: 420px;
+                    min-width: 420px;
+                    max-width: 420px;
+                    padding: 32px;
+                    background: white;
+                    color: #1d1d1d;
+                    font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', -apple-system, sans-serif;
+                    font-size: 12px;
+                    line-height: 1.5;
+                `;
 
-                // Footer
-                pdf.setFontSize(10);
-                pdf.setTextColor(150, 150, 150);
-                pdf.text(`診断日: ${new Date().toLocaleDateString('ja-JP')}`, 20, y);
-                pdf.text('kuuki.design', pageWidth - 20, y, { align: 'right' });
+                const roleLabel = worksheetData.roleChoice === 'steering' ? '舵取り' :
+                    worksheetData.roleChoice === 'polishing' ? '磨き手' : '';
 
-                // Save PDF
+                pdfContainer.innerHTML = `
+                    <div style="margin-bottom: 24px;">
+                        <svg width="32" height="32" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="44" fill="none" stroke="#1d1d1d" stroke-width="2"/>
+                            <circle cx="50" cy="48" r="22" fill="none" stroke="#1d1d1d" stroke-width="2"/>
+                            <circle cx="50" cy="75" r="6" fill="none" stroke="#1d1d1d" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    
+                    <h1 style="font-size: 20px; font-weight: bold; text-align: center; margin-bottom: 24px;">尖（とがり）診断結果</h1>
+                    
+                    <div style="border: 2px solid #CCA806; border-radius: 8px; padding: 20px; margin-bottom: 20px; text-align: center;">
+                        <div style="font-size: 24px; font-weight: bold; color: #CCA806; margin-bottom: 4px;">${result.level}</div>
+                        <div style="font-size: 13px; color: #666; margin-bottom: 12px;">スコア: ${riskScore} / 3</div>
+                        <p style="font-size: 12px; line-height: 1.6; color: #333; margin: 0;">${result.message}</p>
+                    </div>
+                    
+                    <div style="border: 1px solid #e0e0e0; border-radius: 8px; padding: 16px; margin-bottom: 12px;">
+                        <h3 style="font-size: 13px; font-weight: 600; margin-bottom: 8px;">あなたの「尖」</h3>
+                        <p style="font-size: 12px; color: #333; white-space: pre-wrap; margin: 0;">${worksheetData.myTogari || '（未記入）'}</p>
+                    </div>
+                    
+                    <div style="display: flex; gap: 12px; margin-bottom: 12px;">
+                        <div style="flex: 1; padding: 12px; border: ${worksheetData.roleChoice === 'steering' ? '2px solid #CCA806' : '1px solid #e0e0e0'}; border-radius: 8px; text-align: center; ${worksheetData.roleChoice === 'steering' ? 'background: rgba(204, 168, 6, 0.05);' : ''}">
+                            <span style="font-size: 13px; font-weight: 600;">舵取り</span>
+                        </div>
+                        <div style="flex: 1; padding: 12px; border: ${worksheetData.roleChoice === 'polishing' ? '2px solid #CCA806' : '1px solid #e0e0e0'}; border-radius: 8px; text-align: center; ${worksheetData.roleChoice === 'polishing' ? 'background: rgba(204, 168, 6, 0.05);' : ''}">
+                            <span style="font-size: 13px; font-weight: 600;">磨き手</span>
+                        </div>
+                    </div>
+                    
+                    <div style="border: 1px solid #e0e0e0; border-radius: 8px; padding: 16px; margin-bottom: 16px;">
+                        <h3 style="font-size: 13px; font-weight: 600; margin-bottom: 8px;">3-5年の行動計画</h3>
+                        <p style="font-size: 12px; color: #333; white-space: pre-wrap; margin: 0;">${worksheetData.actionPlan || '（未記入）'}</p>
+                    </div>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <h3 style="font-size: 13px; font-weight: 600; margin-bottom: 10px;">回答の内訳</h3>
+                        ${questions.map((q, idx) => `
+                            <div style="display: flex; justify-content: space-between; padding: 6px 0; font-size: 12px; border-bottom: 1px solid #f0f0f0;">
+                                <span style="color: #666;">チェック${idx + 1}:</span>
+                                <span style="color: ${answers[q.id] === 'yes' ? '#f87171' : '#4ade80'}; font-weight: 500;">${answers[q.id] === 'yes' ? 'はい' : 'いいえ'}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div style="border-top: 1px solid #e0e0e0; padding-top: 16px; display: flex; justify-content: space-between; align-items: flex-end;">
+                        <div style="font-size: 11px; color: #999;">
+                            <p style="margin: 0 0 4px 0;">診断日: ${new Date().toLocaleDateString('ja-JP')}</p>
+                            <p style="margin: 0;">kuuki.design</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <img src="${qrCodeDataUrl}" alt="QR Code" style="width: 64px; height: 64px;" />
+                        </div>
+                    </div>
+                `;
+
+                document.body.appendChild(pdfContainer);
+
+                // Wait for QR code image to load
+                await new Promise(resolve => setTimeout(resolve, 100));
+
+                const canvas = await html2canvas(pdfContainer, {
+                    scale: 2,
+                    useCORS: true,
+                    logging: false,
+                    backgroundColor: '#ffffff'
+                });
+
+                document.body.removeChild(pdfContainer);
+
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = pdf.internal.pageSize.getHeight();
+                const imgWidth = canvas.width;
+                const imgHeight = canvas.height;
+                const ratio = Math.min((pdfWidth - 20) / imgWidth, (pdfHeight - 20) / imgHeight);
+                const imgX = (pdfWidth - imgWidth * ratio) / 2;
+                const imgY = 10;
+
+                pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
                 pdf.save('尖診断結果.pdf');
             } catch (error) {
                 console.error('PDF generation failed:', error);
