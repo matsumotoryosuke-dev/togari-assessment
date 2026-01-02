@@ -576,11 +576,7 @@ const TogariAssessment = () => {
 
                 pdfContainer.innerHTML = `
                     <div style="margin-bottom: 24px;">
-                        <svg width="32" height="32" viewBox="0 0 100 100">
-                            <circle cx="50" cy="50" r="44" fill="none" stroke="#1d1d1d" stroke-width="2"/>
-                            <circle cx="50" cy="48" r="22" fill="none" stroke="#1d1d1d" stroke-width="2"/>
-                            <circle cx="50" cy="75" r="6" fill="none" stroke="#1d1d1d" stroke-width="2"/>
-                        </svg>
+                        <img src="/kuuki-logo.png" alt="Kuuki Design" style="width: 32px; height: 32px;" />
                     </div>
                     
                     <h1 style="font-size: 20px; font-weight: bold; text-align: center; margin-bottom: 24px;">尖（とがり）診断結果</h1>
